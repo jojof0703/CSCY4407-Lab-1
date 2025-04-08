@@ -9,6 +9,7 @@ The program will print the state of the matrix after each step.
 """
 
 # AES S-box (substitution box)
+# used to replace eaeh byte in the state matrix during Subbytes
 sbox = [
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5,
     0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
@@ -44,15 +45,23 @@ sbox = [
     0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
 ]
 
+# replaces every value in the matrix with its coresponding value from the S-box
 def sub_bytes(state):
     for i in range(4):
         for j in range(4):
-            state[i][j] = sbox[state[i][j]]
+            # get original byte value, find it in the s-box, replace the value in the matrix
+            original = state[i][j]
+            substituted = sbox[original]
+            state[i][j] = substituted
 
+# shifts each row to the left 
+# shifts 1st row by 0, 2nd row by 1, 3rd row by 2, and 4th row by 3
 def shift_rows(state):
     for i in range(4):
+        # split the row into the two different parts and swap them
         state[i] = state[i][i:] + state[i][:i]
 
+# multiplies two bytes in the Galois Field, used in mix columns function 
 def galois_mult(a, b):
     p = 0
     for _ in range(8):
@@ -65,14 +74,19 @@ def galois_mult(a, b):
         b >>= 1
     return p & 0xFF
 
+# mixes each column in the matrix using a fixed transformation matrix
 def mix_columns(state):
     for j in range(4):
+        # original column values 
         col = [state[i][j] for i in range(4)]
+
+        # perform the matrix multiplication 
         state[0][j] = galois_mult(col[0], 2) ^ galois_mult(col[1], 3) ^ col[2] ^ col[3]
         state[1][j] = col[0] ^ galois_mult(col[1], 2) ^ galois_mult(col[2], 3) ^ col[3]
         state[2][j] = col[0] ^ col[1] ^ galois_mult(col[2], 2) ^ galois_mult(col[3], 3)
         state[3][j] = galois_mult(col[0], 3) ^ col[1] ^ col[2] ^ galois_mult(col[3], 2)
 
+# combines the state matrix with the round key using XOR
 def add_round_key(state, round_key):
     for i in range(4):
         for j in range(4):
