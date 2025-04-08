@@ -78,30 +78,27 @@ def add_round_key(state, round_key):
         for j in range(4):
             state[i][j] ^= round_key[i][j]
 
-def print_matrix(matrix):
+def print_matrix(matrix, title=None):
+    if title:
+        print(title)
     for row in matrix:
         print(' '.join(f'{val:02X}' for val in row))
     print()
 
 def aes_round(state, round_key):
-    print("Initial State:")
-    print_matrix(state)
+    print_matrix(state, "Initial State: ")
 
     sub_bytes(state)
-    print("After SubBytes:")
-    print_matrix(state)
+    print_matrix(state, "After SubBytes: ")
 
     shift_rows(state)
-    print("After ShiftRows:")
-    print_matrix(state)
+    print_matrix(state, "After ShiftRows: ")
 
     mix_columns(state)
-    print("After MixColumns:")
-    print_matrix(state)
+    print_matrix(state, "After MixColumns: ")
 
     add_round_key(state, round_key)
-    print("After AddRoundKey:")
-    print_matrix(state)
+    print_matrix(state, "After AddRoundKey: ")
 
 if __name__ == '__main__':
     state = [
