@@ -7,3 +7,15 @@ It performs the following steps on a 4x4 matrix:
 4. AddRoundKey: XOR the state matrix with the provided round key. 
 The program will print the state of the matrix after each step. 
 """
+
+
+s-box = 
+
+def subBytes():
+
+def shiftRows():
+
+def mixColumns():
+
+def AddRoundKey():
+
