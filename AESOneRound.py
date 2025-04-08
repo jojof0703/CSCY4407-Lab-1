@@ -1,3 +1,5 @@
+# Katy Pacheco and Giovanni Flores CSCY 4407 Lab 1 Assigment 
+
 """
 This program implements one round of the AES encryption algorithm. 
 It performs the following steps on a 4x4 matrix:
