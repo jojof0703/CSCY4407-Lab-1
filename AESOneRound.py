@@ -8,21 +8,6 @@ It performs the following steps on a 4x4 matrix:
 The program will print the state of the matrix after each step. 
 """
 
-
-s-box = 
-
-def subBytes():
-
-def shiftRows():
-
-def mixColumns():
-
-def AddRoundKey():
-
-
-
-from copy import copy
-
 # AES S-box (substitution box)
 sbox = [
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5,
